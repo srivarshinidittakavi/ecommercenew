@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Checkout — VOLT Electronics</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.checkout-wrap{max-width:1100px;margin:0 auto;padding:2.5rem clamp(1rem,5vw,3rem) 5rem}
+.checkout-title{font-family:var(--display);font-size:clamp(2rem,5vw,2.8rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:2.5rem}
+.checkout-title span{color:var(--yellow)}
+.checkout-grid{display:grid;grid-template-columns:1fr 380px;gap:3rem;align-items:start}
+.form-section{margin-bottom:2.5rem}
+.form-sec-title{font-family:var(--display);font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.2rem;padding-bottom:0.7rem;border-bottom:1px solid var(--border)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem}
+.form-group label{font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.form-group input,.form-group select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:0.8rem 1rem;font-family:var(--body);font-size:0.88rem;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.form-group input:focus,.form-group select:focus{border-color:var(--cyan)}
+.form-group input::placeholder{color:var(--muted)}
+.form-group select option{background:var(--surface2)}
+.payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin-bottom:1.5rem}
+.pay-option{background:var(--surface2);border:2px solid var(--border);padding:0.9rem;text-align:center;cursor:pointer;transition:all 0.2s;font-size:0.8rem;font-weight:600}
+.pay-option:hover,.pay-option.active{border-color:var(--cyan);color:var(--cyan)}
+.pay-option .pay-icon{font-size:1.4rem;display:block;margin-bottom:0.3rem}
+/* SUMMARY */
+.order-summary{background:var(--surface);border:1px solid var(--border);padding:1.8rem;position:sticky;top:88px}
+.os-title{font-family:var(--display);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border)}
+.sum-item{display:flex;justify-content:space-between;align-items:start;gap:1rem;font-size:0.83rem;margin-bottom:0.8rem}
+.sum-item-name{color:var(--muted);flex:1;line-height:1.4}
+.sum-item-price{font-family:var(--display);font-weight:700;white-space:nowrap}
+.sum-sep{border:none;border-top:1px solid var(--border);margin:1rem 0}
+.sum-row{display:flex;justify-content:space-between;font-size:0.84rem;color:var(--muted);margin-bottom:0.6rem}
+.sum-total{display:flex;justify-content:space-between;font-family:var(--display);font-weight:800;font-size:1.15rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.sum-total span:last-child{color:var(--yellow)}
+.place-order-btn{width:100%;background:var(--yellow);color:#0a0a0f;border:none;padding:1rem;font-family:var(--display);font-size:0.9rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:1.5rem}
+.place-order-btn:hover{background:var(--green)}
+/* SUCCESS */
+#success-page{display:none;text-align:center;padding:6rem 2rem;max-width:600px;margin:0 auto}
+.success-icon{font-size:4rem;margin-bottom:1.5rem;animation:pop 0.5s cubic-bezier(0.36,0.07,0.19,0.97)}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success-title{font-family:var(--display);font-size:2.5rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:1rem}
+.success-title span{color:var(--green)}
+.success-sub{color:var(--muted);font-size:1rem;line-height:1.7;margin-bottom:2rem;max-width:40ch;margin-left:auto;margin-right:auto}
+.order-box{background:var(--surface);border:1px solid var(--border);padding:1.2rem 2rem;display:inline-block;margin-bottom:2rem;font-family:var(--display);font-size:0.9rem}
+.order-box span{color:var(--yellow);font-weight:800}
+@media(max-width:900px){.checkout-grid{grid-template-columns:1fr}.order-summary{position:static}.form-row{grid-template-columns:1fr}.payment-methods{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">VOLT<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="cart.html">Cart</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="cart.html" class="cart-btn"><span>🛒</span><span class="cart-label">Cart</span><span class="cart-count">0</span></a>
+  </div>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="cart.html">Cart</a>
+</div>
+
+<div class="breadcrumb"><a href="index.html">Home</a> › <a href="cart.html">Cart</a> › <span>Checkout</span></div>
+
+<div id="checkout-page">
+  <div class="checkout-wrap">
+    <h1 class="checkout-title">Secure <span>Checkout</span></h1>
+    <div class="checkout-grid">
+      <div>
+        <div class="form-section">
+          <p class="form-sec-title">Contact Information</p>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Ravi" id="fname"/></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Kumar" id="lname"/></div>
+          </div>
+          <div class="form-group"><label>Email Address</label><input type="email" placeholder="ravi@email.com" id="email"/></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 98765 43210" id="phone"/></div>
+        </div>
+        <div class="form-section">
+          <p class="form-sec-title">Shipping Address</p>
+          <div class="form-group"><label>Address Line 1</label><input type="text" placeholder="123, MG Road" id="addr1"/></div>
+          <div class="form-group"><label>Address Line 2 (Optional)</label><input type="text" placeholder="Apartment, Floor" id="addr2"/></div>
+          <div class="form-row">
+            <div class="form-group"><label>City</label><input type="text" placeholder="Hyderabad" id="city"/></div>
+            <div class="form-group"><label>PIN Code</label><input type="text" placeholder="500001" id="pin"/></div>
+          </div>
+          <div class="form-group"><label>State</label>
+            <select id="state"><option>Andhra Pradesh</option><option>Telangana</option><option>Karnataka</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Delhi</option><option>Gujarat</option><option>Rajasthan</option><option>Other</option></select>
+          </div>
+        </div>
+        <div class="form-section">
+          <p class="form-sec-title">Payment Method</p>
+          <div class="payment-methods">
+            <div class="pay-option active" onclick="selectPay(this)"><span class="pay-icon">💳</span>Card</div>
+            <div class="pay-option" onclick="selectPay(this)"><span class="pay-icon">📱</span>UPI</div>
+            <div class="pay-option" onclick="selectPay(this)"><span class="pay-icon">🏦</span>Net Banking</div>
+          </div>
+          <div id="card-fields">
+            <div class="form-group"><label>Card Number</label><input type="text" placeholder="4242 4242 4242 4242" maxlength="19" oninput="fmtCard(this)"/></div>
+            <div class="form-row">
+              <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM / YY" maxlength="7"/></div>
+              <div class="form-group"><label>CVV</label><input type="text" placeholder="•••" maxlength="3"/></div>
+            </div>
+            <div class="form-group"><label>Name on Card</label><input type="text" placeholder="Ravi Kumar"/></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="order-summary">
+          <p class="os-title">Order Summary</p>
+          <div id="sum-items" style="max-height:240px;overflow-y:auto;margin-bottom:1rem"></div>
+          <hr class="sum-sep"/>
+          <div class="sum-row"><span>Subtotal</span><span id="sum-sub"></span></div>
+          <div class="sum-row"><span>Shipping</span><span style="color:var(--green)">FREE</span></div>
+          <div class="sum-row"><span>GST (18%)</span><span id="sum-tax"></span></div>
+          <div class="sum-total"><span>Total</span><span id="sum-total"></span></div>
+          <button class="place-order-btn" onclick="placeOrder()">Place Order →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="success-page">
+  <div class="success-icon">✅</div>
+  <h1 class="success-title">Order <span>Confirmed!</span></h1>
+  <p class="success-sub">Thank you for shopping with VOLT! Your order is confirmed and will be shipped within 24 hours.</p>
+  <div class="order-box">Order ID: <span id="order-id">#VOLT-0000</span></div>
+  <br/><br/>
+  <a href="index.html" class="btn-primary">Continue Shopping</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a class="logo" href="index.html">VOLT<span>.</span></a><p class="footer-brand-desc">Next-gen electronics at unbeatable prices.</p></div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="#">Returns</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">Contact Us</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 VOLT Electronics.</p></div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+function renderSummary(){
+  const cart = getCart();
+  if (!cart.length){ location.href = 'cart.html'; return; }
+  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const tax = Math.round(sub*0.18);
+  document.getElementById('sum-items').innerHTML = cart.map(c=>`<div class="sum-item"><span class="sum-item-name">${c.name} × ${c.qty}</span><span class="sum-item-price">${fmtPrice(c.price*c.qty)}</span></div>`).join('');
+  document.getElementById('sum-sub').textContent = fmtPrice(sub);
+  document.getElementById('sum-tax').textContent = fmtPrice(tax);
+  document.getElementById('sum-total').textContent = fmtPrice(sub+tax);
+}
+function selectPay(el){ document.querySelectorAll('.pay-option').forEach(p=>p.classList.remove('active')); el.classList.add('active'); }
+function fmtCard(inp){ inp.value = inp.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim().slice(0,19); }
+function placeOrder(){
+  const f = document.getElementById('fname').value;
+  const e = document.getElementById('email').value;
+  if (!f || !e){ showToast('Please fill in all required fields'); return; }
+  const oid = '#VOLT-' + Math.random().toString(36).substring(2,8).toUpperCase();
+  document.getElementById('order-id').textContent = oid;
+  saveCart([]);
+  updateAllCartCounts();
+  document.getElementById('checkout-page').style.display = 'none';
+  document.getElementById('success-page').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+renderSummary();
+</script>
+</body>
+</html>
