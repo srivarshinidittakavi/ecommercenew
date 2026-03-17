@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Shop — VOLT Electronics</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.shop-layout{display:grid;grid-template-columns:240px 1fr;gap:2.5rem;padding:2.5rem clamp(1rem,5vw,5rem) 5rem;align-items:start}
+/* SIDEBAR */
+.sidebar{background:var(--surface);border:1px solid var(--border);padding:1.5rem;position:sticky;top:88px}
+.sidebar-section{margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid var(--border)}
+.sidebar-section:last-child{border-bottom:none;margin-bottom:0}
+.sidebar-title{font-family:var(--display);font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);margin-bottom:1rem}
+.cat-option{display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0;cursor:pointer;font-size:0.85rem;color:var(--muted);transition:color 0.2s;border:none;background:none;width:100%;text-align:left;font-family:var(--body)}
+.cat-option:hover,.cat-option.active{color:var(--yellow)}
+.cat-option .count{font-size:0.72rem;background:var(--surface2);padding:0.1rem 0.5rem;color:var(--muted)}
+.price-inputs{display:flex;gap:0.5rem;margin-top:0.5rem}
+.price-inputs input{width:50%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:0.5rem;font-size:0.8rem;font-family:var(--body);outline:none}
+.price-inputs input:focus{border-color:var(--cyan)}
+.brand-check{display:flex;align-items:center;gap:0.6rem;padding:0.35rem 0;cursor:pointer;font-size:0.85rem;color:var(--muted)}
+.brand-check input[type=checkbox]{accent-color:var(--cyan);width:14px;height:14px;cursor:pointer}
+.brand-check:hover{color:var(--text)}
+.apply-btn{width:100%;background:var(--yellow);color:#0a0a0f;border:none;padding:0.7rem;font-family:var(--display);font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:background 0.2s}
+.apply-btn:hover{background:var(--cyan)}
+/* MAIN */
+.shop-main{}
+.shop-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.shop-topbar-left{font-size:0.85rem;color:var(--muted)}
+.shop-topbar-left strong{color:var(--text)}
+.sort-select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:0.5rem 1rem;font-family:var(--body);font-size:0.85rem;outline:none;cursor:pointer}
+.active-filters{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.filter-tag{display:flex;align-items:center;gap:0.4rem;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);color:var(--cyan);font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.7rem}
+.filter-tag button{background:none;border:none;color:var(--cyan);cursor:pointer;font-size:0.9rem;line-height:1;padding:0}
+.no-results{text-align:center;padding:5rem 0;color:var(--muted);font-family:var(--display);font-size:1.2rem}
+@media(max-width:900px){.shop-layout{grid-template-columns:1fr}.sidebar{position:static;display:none}.sidebar.mobile-show{display:block}}
+.mobile-filter-btn{display:none;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:0.5rem 1rem;font-family:var(--display);font-size:0.8rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;margin-bottom:1.5rem}
+@media(max-width:900px){.mobile-filter-btn{display:block}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">VOLT<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="shop.html?cat=Phones">Phones</a></li>
+    <li><a href="shop.html?cat=Laptops">Laptops</a></li>
+    <li><a href="shop.html?cat=Audio">Audio</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="search-box"><span>⌕</span><input type="text" id="search-input" placeholder="Search..." onkeydown="if(event.key==='Enter')applySearch(this.value)"/></div>
+    <a href="cart.html" class="cart-btn"><span>🛒</span><span class="cart-label">Cart</span><span class="cart-count">0</span></a>
+  </div>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="cart.html">Cart (<span class="mob-cart-count">0</span>)</a>
+</div>
+
+<div class="breadcrumb"><a href="index.html">Home</a> › <span id="bc-current">Shop</span></div>
+
+<div class="page-hero" style="padding:2.5rem clamp(1rem,5vw,5rem)">
+  <p class="page-hero-tag">Browse</p>
+  <h1 class="page-hero-title" id="shop-title">All <span>Products</span></h1>
+</div>
+
+<div class="shop-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <p class="sidebar-title">Categories</p>
+      <button class="cat-option active" onclick="setCat('',this)">All <span class="count">12</span></button>
+      <button class="cat-option" onclick="setCat('Phones',this)">Phones <span class="count">2</span></button>
+      <button class="cat-option" onclick="setCat('Laptops',this)">Laptops <span class="count">2</span></button>
+      <button class="cat-option" onclick="setCat('Audio',this)">Audio <span class="count">2</span></button>
+      <button class="cat-option" onclick="setCat('Wearables',this)">Wearables <span class="count">2</span></button>
+      <button class="cat-option" onclick="setCat('Gaming',this)">Gaming <span class="count">1</span></button>
+      <button class="cat-option" onclick="setCat('Cameras',this)">Cameras <span class="count">1</span></button>
+      <button class="cat-option" onclick="setCat('Accessories',this)">Accessories <span class="count">2</span></button>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Price Range</p>
+      <div class="price-inputs">
+        <input type="number" placeholder="Min ₹" id="price-min"/>
+        <input type="number" placeholder="Max ₹" id="price-max"/>
+      </div>
+      <button class="apply-btn" onclick="applyFilters()">Apply</button>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Brands</p>
+      <label class="brand-check"><input type="checkbox" value="Apple" onchange="applyFilters()"> Apple</label>
+      <label class="brand-check"><input type="checkbox" value="Samsung" onchange="applyFilters()"> Samsung</label>
+      <label class="brand-check"><input type="checkbox" value="Sony" onchange="applyFilters()"> Sony</label>
+      <label class="brand-check"><input type="checkbox" value="Dell" onchange="applyFilters()"> Dell</label>
+      <label class="brand-check"><input type="checkbox" value="Logitech" onchange="applyFilters()"> Logitech</label>
+      <label class="brand-check"><input type="checkbox" value="Anker" onchange="applyFilters()"> Anker</label>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Rating</p>
+      <label class="brand-check"><input type="radio" name="rating" value="4.5" onchange="applyFilters()"> 4.5★ & above</label>
+      <label class="brand-check"><input type="radio" name="rating" value="4" onchange="applyFilters()"> 4.0★ & above</label>
+      <label class="brand-check"><input type="radio" name="rating" value="" onchange="applyFilters()"> All Ratings</label>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="shop-main">
+    <button class="mobile-filter-btn" onclick="document.getElementById('sidebar').classList.toggle('mobile-show')">⚙ Filters</button>
+    <div class="active-filters" id="active-filters"></div>
+    <div class="shop-topbar">
+      <p class="shop-topbar-left"><strong id="result-count">12</strong> products found</p>
+      <select class="sort-select" onchange="currentSort=this.value;renderGrid()">
+        <option value="default">Sort: Default</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Highest Rated</option>
+        <option value="name">Name A–Z</option>
+      </select>
+    </div>
+    <div class="products-grid" id="shop-grid"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a class="logo" href="index.html">VOLT<span>.</span></a><p class="footer-brand-desc">Next-gen electronics at unbeatable prices.</p></div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html?cat=Phones">Phones</a></li><li><a href="shop.html?cat=Laptops">Laptops</a></li><li><a href="shop.html?cat=Audio">Audio</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 VOLT Electronics.</p><div class="footer-socials"><a class="social-btn">𝕏</a><a class="social-btn">📘</a><a class="social-btn">📸</a></div></div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+let currentCat = '';
+let currentSort = 'default';
+let searchQuery = '';
+
+const params = new URLSearchParams(location.search);
+if (params.get('cat')) { currentCat = params.get('cat'); document.getElementById('bc-current').textContent = currentCat; document.getElementById('shop-title').innerHTML = currentCat + ' <span>Collection</span>'; document.querySelectorAll('.cat-option').forEach(b => { b.classList.toggle('active', b.textContent.trim().startsWith(currentCat)); }); }
+if (params.get('q')) { searchQuery = params.get('q'); document.getElementById('search-input').value = searchQuery; document.getElementById('shop-title').innerHTML = 'Results for <span>"' + searchQuery + '"</span>'; }
+
+function applySearch(q) { searchQuery = q; applyFilters(); }
+
+function setCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-option').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const minP = parseFloat(document.getElementById('price-min').value) || 0;
+  const maxP = parseFloat(document.getElementById('price-max').value) || Infinity;
+  const checkedBrands = [...document.querySelectorAll('.brand-check input[type=checkbox]:checked')].map(c => c.value);
+  const minRating = parseFloat(document.querySelector('input[name=rating]:checked')?.value || 0);
+
+  let list = [...products];
+  if (currentCat) list = list.filter(p => p.category === currentCat);
+  if (searchQuery) list = list.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.brand.toLowerCase().includes(searchQuery.toLowerCase()));
+  if (checkedBrands.length) list = list.filter(p => checkedBrands.includes(p.brand));
+  if (minRating) list = list.filter(p => p.rating >= minRating);
+  list = list.filter(p => p.price >= minP && p.price <= maxP);
+
+  if (currentSort === 'price-asc') list.sort((a,b) => a.price - b.price);
+  else if (currentSort === 'price-desc') list.sort((a,b) => b.price - a.price);
+  else if (currentSort === 'rating') list.sort((a,b) => b.rating - a.rating);
+  else if (currentSort === 'name') list.sort((a,b) => a.name.localeCompare(b.name));
+
+  document.getElementById('result-count').textContent = list.length;
+  document.getElementById('shop-grid').innerHTML = list.length
+    ? list.map(productCardHTML).join('')
+    : '<div class="no-results" style="grid-column:1/-1">No products found 😔</div>';
+  renderActiveTags();
+}
+
+function renderActiveTags() {
+  const tags = [];
+  if (currentCat) tags.push({label: currentCat, clear: () => { currentCat=''; document.querySelectorAll('.cat-option').forEach(b => b.classList.toggle('active', b.textContent.includes('All'))); applyFilters(); }});
+  if (searchQuery) tags.push({label: '"'+searchQuery+'"', clear: () => { searchQuery=''; document.getElementById('search-input').value=''; applyFilters(); }});
+  document.getElementById('active-filters').innerHTML = tags.map((t,i) => `<div class="filter-tag">${t.label}<button onclick="activeTags[${i}].clear()">×</button></div>`).join('');
+  window.activeTags = tags;
+}
+
+function renderGrid() { applyFilters(); }
+applyFilters();
+</script>
+</body>
+</html>
