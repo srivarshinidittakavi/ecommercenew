@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Product — VOLT Electronics</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.product-wrap{padding:2rem clamp(1rem,5vw,5rem) 5rem;max-width:1300px;margin:0 auto}
+.product-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+/* GALLERY */
+.gallery{position:sticky;top:88px}
+.main-img-wrap{background:var(--surface);border:1px solid var(--border);aspect-ratio:1;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:1rem;cursor:zoom-in}
+.main-img{width:70%;aspect-ratio:1;object-fit:contain;transition:transform 0.4s}
+.main-img-wrap:hover .main-img{transform:scale(1.06)}
+.thumb-row{display:flex;gap:0.75rem}
+.thumb{width:72px;height:72px;background:var(--surface2);border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s;overflow:hidden;flex-shrink:0}
+.thumb.active,.thumb:hover{border-color:var(--cyan)}
+.thumb img{width:80%;height:80%;object-fit:contain}
+/* INFO */
+.prod-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.6rem}
+.prod-title{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin-bottom:1rem}
+.prod-rating{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.prod-price-wrap{margin-bottom:1.5rem}
+.price-main{font-family:var(--display);font-size:2.2rem;font-weight:800;color:var(--yellow)}
+.price-old{font-size:1rem;color:var(--muted);text-decoration:line-through;margin-left:0.8rem}
+.price-save{font-size:0.78rem;font-weight:700;color:var(--green);margin-left:0.5rem}
+.prod-desc{font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.8rem}
+.opt-label{font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.7rem}
+.color-options{display:flex;gap:0.6rem;margin-bottom:1.5rem}
+.color-dot{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
+.color-dot.active,.color-dot:hover{border-color:var(--text);transform:scale(1.15)}
+.qty-row{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+.qty-ctrl{display:flex;align-items:center;border:1px solid var(--border)}
+.qty-btn{background:var(--surface2);border:none;color:var(--text);width:38px;height:38px;font-size:1.1rem;cursor:pointer;transition:background 0.2s}
+.qty-btn:hover{background:var(--yellow);color:#0a0a0f}
+.qty-val{width:44px;text-align:center;font-family:var(--display);font-weight:700;font-size:0.95rem;background:none;border:none;color:var(--text)}
+.add-cart-btn{flex:1;background:var(--yellow);color:#0a0a0f;border:none;padding:1rem;font-family:var(--display);font-size:0.9rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.add-cart-btn:hover{background:var(--cyan);transform:translateY(-2px)}
+.add-cart-btn.added{background:var(--green)}
+.wish-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:50px;height:50px;font-size:1.2rem;cursor:pointer;transition:all 0.2s}
+.wish-btn:hover,.wish-btn.active{border-color:var(--pink);color:var(--pink)}
+/* SPECS */
+.specs-block{margin-top:2rem;border-top:1px solid var(--border);padding-top:1.5rem}
+.specs-head{font-family:var(--display);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem}
+.spec-row{display:flex;justify-content:space-between;align-items:start;padding:0.65rem 0;border-bottom:1px solid var(--border);font-size:0.83rem;gap:1rem}
+.spec-key{color:var(--muted);flex-shrink:0}
+.spec-val{font-weight:500;text-align:right}
+/* TABS */
+.tab-row{display:flex;gap:0;border-bottom:1px solid var(--border);margin:3rem 0 0}
+.tab-btn{background:none;border:none;color:var(--muted);font-family:var(--display);font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:1rem 1.5rem;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;margin-bottom:-1px}
+.tab-btn.active{color:var(--yellow);border-bottom-color:var(--yellow)}
+.tab-panel{display:none;padding:2rem 0}
+.tab-panel.active{display:block}
+.review-item{padding:1.5rem 0;border-bottom:1px solid var(--border)}
+.review-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}
+.review-author{font-family:var(--display);font-size:0.85rem;font-weight:700}
+.review-date{font-size:0.75rem;color:var(--muted)}
+.review-text{font-size:0.88rem;color:var(--muted);line-height:1.7}
+@media(max-width:768px){.product-layout{grid-template-columns:1fr}.gallery{position:static}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">VOLT<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="shop.html?cat=Phones">Phones</a></li>
+    <li><a href="shop.html?cat=Laptops">Laptops</a></li>
+    <li><a href="shop.html?cat=Audio">Audio</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="search-box"><span>⌕</span><input type="text" placeholder="Search..." onkeydown="if(event.key==='Enter')location.href='shop.html?q='+this.value"/></div>
+    <a href="cart.html" class="cart-btn"><span>🛒</span><span class="cart-label">Cart</span><span class="cart-count">0</span></a>
+  </div>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="cart.html">Cart (<span class="mob-cart-count">0</span>)</a>
+</div>
+
+<div class="breadcrumb"><a href="index.html">Home</a> › <a href="shop.html">Shop</a> › <span id="bc-name">Product</span></div>
+
+<div class="product-wrap">
+  <div class="product-layout">
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="main-img-wrap"><img class="main-img" id="main-img" src="" alt=""/></div>
+      <div class="thumb-row" id="thumb-row"></div>
+    </div>
+    <!-- INFO -->
+    <div>
+      <p class="prod-tag" id="prod-tag"></p>
+      <h1 class="prod-title" id="prod-title"></h1>
+      <div class="prod-rating">
+        <span class="stars" id="prod-stars"></span>
+        <span class="rating-count" id="prod-rc"></span>
+        <span style="font-size:0.75rem;color:var(--green);font-weight:600;margin-left:auto" id="prod-stock"></span>
+      </div>
+      <div class="prod-price-wrap">
+        <span class="price-main" id="prod-price"></span>
+        <span class="price-old" id="prod-old"></span>
+        <span class="price-save" id="prod-save"></span>
+      </div>
+      <p class="prod-desc" id="prod-desc"></p>
+      <p class="opt-label">Color</p>
+      <div class="color-options" id="prod-colors"></div>
+      <div class="qty-row">
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="chQty(-1)">−</button>
+          <input class="qty-val" id="qty" value="1" readonly/>
+          <button class="qty-btn" onclick="chQty(1)">+</button>
+        </div>
+        <button class="add-cart-btn" id="add-btn" onclick="doAddCart()">Add to Cart</button>
+        <button class="wish-btn" onclick="this.classList.toggle('active')">♡</button>
+      </div>
+      <div class="specs-block">
+        <p class="specs-head">Specifications</p>
+        <div id="prod-specs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('description',this)">Description</button>
+    <button class="tab-btn" onclick="switchTab('reviews',this)">Reviews</button>
+    <button class="tab-btn" onclick="switchTab('shipping',this)">Shipping</button>
+  </div>
+  <div class="tab-panel active" id="tab-description">
+    <p style="color:var(--muted);font-size:0.95rem;line-height:1.9;max-width:700px" id="tab-desc-text"></p>
+  </div>
+  <div class="tab-panel" id="tab-reviews">
+    <div id="reviews-list"></div>
+  </div>
+  <div class="tab-panel" id="tab-shipping">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:800px">
+      <div style="background:var(--surface);border:1px solid var(--border);padding:1.5rem"><div style="font-size:1.5rem;margin-bottom:0.8rem">🚚</div><div style="font-family:var(--display);font-weight:700;margin-bottom:0.4rem">Standard Delivery</div><div style="font-size:0.83rem;color:var(--muted)">Free on orders above ₹999. Delivered in 3–5 business days.</div></div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:1.5rem"><div style="font-size:1.5rem;margin-bottom:0.8rem">⚡</div><div style="font-family:var(--display);font-weight:700;margin-bottom:0.4rem">Express Delivery</div><div style="font-size:0.83rem;color:var(--muted)">₹199. Delivered within 24–48 hours.</div></div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:1.5rem"><div style="font-size:1.5rem;margin-bottom:0.8rem">↩️</div><div style="font-family:var(--display);font-weight:700;margin-bottom:0.4rem">Easy Returns</div><div style="font-size:0.83rem;color:var(--muted)">30-day hassle-free returns. Free pickup from your door.</div></div>
+    </div>
+  </div>
+
+  <!-- RELATED -->
+  <div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border)">
+    <div class="section-head"><h2 class="section-title">You May <span>Also Like</span></h2></div>
+    <div class="products-grid" id="related-grid"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a class="logo" href="index.html">VOLT<span>.</span></a><p class="footer-brand-desc">Next-gen electronics at unbeatable prices.</p></div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html?cat=Phones">Phones</a></li><li><a href="shop.html?cat=Laptops">Laptops</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="#">Returns</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 VOLT Electronics.</p></div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+let prodQty = 1;
+const id = parseInt(new URLSearchParams(location.search).get('id')) || 1;
+const p = products.find(x => x.id === id) || products[0];
+
+document.title = p.name + ' — VOLT';
+document.getElementById('bc-name').textContent = p.name;
+document.getElementById('main-img').src = p.img;
+document.getElementById('prod-tag').textContent = p.category;
+document.getElementById('prod-title').textContent = p.name;
+document.getElementById('prod-stars').textContent = starsHTML(p.rating);
+document.getElementById('prod-rc').textContent = p.rating + ' (' + p.reviews.toLocaleString() + ' reviews)';
+document.getElementById('prod-stock').textContent = p.stock === 'In Stock' ? '✓ In Stock' : '⚡ Limited';
+document.getElementById('prod-price').textContent = fmtPrice(p.price);
+document.getElementById('prod-old').textContent = fmtPrice(p.originalPrice);
+const save = Math.round((p.originalPrice - p.price) / p.originalPrice * 100);
+document.getElementById('prod-save').textContent = 'Save ' + save + '%';
+document.getElementById('prod-desc').textContent = p.desc;
+document.getElementById('tab-desc-text').textContent = p.desc + ' Built with premium materials and cutting-edge technology, this product represents the pinnacle of engineering and design. Whether you\'re a professional or an enthusiast, it delivers an exceptional experience every single time you use it. Designed to last, backed by warranty.';
+
+document.getElementById('prod-specs').innerHTML = Object.entries(p.specs).map(([k,v]) =>
+  `<div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${v}</span></div>`).join('');
+
+document.getElementById('prod-colors').innerHTML = p.colors.map((c,i) =>
+  `<div class="color-dot${i===0?' active':''}" style="background:${c}" onclick="selectColor(this)"></div>`).join('');
+
+document.getElementById('thumb-row').innerHTML = (p.imgs || [p.img]).map((img,i) =>
+  `<div class="thumb${i===0?' active':''}" onclick="switchImg('${img}',this)"><img src="${img}" alt=""></div>`).join('');
+
+document.getElementById('reviews-list').innerHTML = [
+  {name:'Arjun S.', rating:5, date:'Mar 12, 2026', text:'Absolutely love this product. The build quality is outstanding and performance is top-notch. Worth every rupee!'},
+  {name:'Priya M.', rating:5, date:'Mar 8, 2026', text:'Delivered in 2 days. Packaging was excellent. The product exceeded my expectations. Highly recommend VOLT!'},
+  {name:'Rahul K.', rating:4, date:'Feb 28, 2026', text:'Great product overall. Battery life is impressive. Minor heating when gaming but nothing concerning.'},
+].map(r => `<div class="review-item"><div class="review-top"><span class="review-author">${r.name}</span><span style="color:var(--yellow);font-size:0.8rem">${'★'.repeat(r.rating)}</span><span class="review-date">${r.date}</span></div><p class="review-text">${r.text}</p></div>`).join('');
+
+document.getElementById('related-grid').innerHTML = products.filter(x => x.category === p.category && x.id !== p.id).slice(0,4).map(productCardHTML).join('');
+
+function chQty(d){ prodQty = Math.max(1, Math.min(10, prodQty + d)); document.getElementById('qty').value = prodQty; }
+function selectColor(el){ document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active')); el.classList.add('active'); }
+function switchImg(src, thumb){ document.getElementById('main-img').src = src; document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); thumb.classList.add('active'); }
+function doAddCart(){
+  addToCartById(p.id, prodQty);
+  const btn = document.getElementById('add-btn');
+  btn.textContent = '✓ Added!'; btn.classList.add('added');
+  setTimeout(() => { btn.textContent = 'Add to Cart'; btn.classList.remove('added'); }, 2000);
+}
+function switchTab(id, btn){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>
