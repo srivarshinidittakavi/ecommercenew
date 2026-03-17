@@ -1,350 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>VOLT — Next-Gen Electronics</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0a0f;--surf:#13131a;--surf2:#1c1c28;--bdr:#2a2a3a;
-  --txt:#f0f0ff;--mut:#7070a0;
-  --y:#f5e642;--c:#00e5ff;--pk:#ff2d78;--gr:#00ff9d;--or:#ff6b35;
+  --bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c28;--border:#2a2a3a;
+  --text:#f0f0ff;--muted:#7070a0;
+  --yellow:#f5e642;--cyan:#00e5ff;--pink:#ff2d78;--green:#00ff9d;--orange:#ff6b35;
+  --display:'Syne',sans-serif;--body:'Manrope',sans-serif;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:'Manrope',sans-serif;font-size:14px;line-height:1.5;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
 
-/* NAV */
-.nav{background:rgba(10,10,15,0.97);border-bottom:1px solid var(--bdr);padding:0 clamp(1rem,4vw,3rem);display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:50}
-.logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--y);letter-spacing:-2px;cursor:pointer}
-.logo span{color:var(--c)}
-.nav-links{display:flex;gap:24px;list-style:none}
-.nav-links a{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);cursor:pointer;transition:color .2s;text-decoration:none}
-.nav-links a:hover{color:var(--txt)}
-.nav-right{display:flex;align-items:center;gap:12px}
-.search-box{display:flex;align-items:center;gap:6px;background:var(--surf2);border:1px solid var(--bdr);padding:6px 12px}
-.search-box input{background:none;border:none;outline:none;color:var(--txt);font-family:'Manrope',sans-serif;font-size:13px;width:150px}
-.search-box input::placeholder{color:var(--mut)}
-.cart-btn{background:var(--y);color:#0a0a0f;border:none;padding:8px 16px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
-.cart-btn:hover{background:var(--c)}
-.cbadge{background:#0a0a0f;color:var(--y);border-radius:50%;width:18px;height:18px;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center}
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:200;background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 clamp(1rem,4vw,3rem);display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-family:var(--display);font-size:1.6rem;font-weight:800;color:var(--yellow);letter-spacing:-0.03em;cursor:pointer;text-decoration:none}
+.logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);transition:color 0.2s;text-decoration:none}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.search-box{display:flex;align-items:center;gap:0.5rem;background:var(--surface2);border:1px solid var(--border);padding:0.45rem 0.9rem}
+.search-box input{background:none;border:none;outline:none;color:var(--text);font-family:var(--body);font-size:0.85rem;width:150px}
+.search-box input::placeholder{color:var(--muted)}
+.cart-btn{background:var(--yellow);color:#0a0a0f;border:none;padding:0.5rem 1.1rem;font-family:var(--display);font-size:0.82rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.5rem;text-decoration:none}
+.cart-btn:hover{background:var(--cyan)}
+.cart-count{background:#0a0a0f;color:var(--yellow);border-radius:50%;width:18px;height:18px;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;min-width:18px}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
-.hamburger span{display:block;width:22px;height:1.5px;background:var(--txt);transition:all .3s}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--text);transition:all 0.3s}
 .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-.mobile-menu{display:none;position:fixed;inset:64px 0 0 0;background:var(--bg);z-index:49;flex-direction:column;align-items:center;justify-content:center;gap:2rem;border-top:1px solid var(--bdr)}
+.mobile-menu{display:none;position:fixed;inset:68px 0 0 0;background:var(--bg);z-index:199;flex-direction:column;align-items:center;justify-content:center;gap:2rem;border-top:1px solid var(--border)}
 .mobile-menu.open{display:flex}
-.mobile-menu a{font-family:'Syne',sans-serif;font-size:1.3rem;color:var(--txt);cursor:pointer;text-decoration:none}
-.mobile-menu a:hover{color:var(--y)}
+.mobile-menu a{font-family:var(--display);font-size:1.3rem;color:var(--text);text-decoration:none}
+.mobile-menu a:hover{color:var(--yellow)}
 
-/* HERO */
-.hero{min-height:88vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 clamp(1rem,5vw,5rem);gap:2rem;position:relative;overflow:hidden;border-bottom:1px solid var(--bdr)}
-.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,.12) 0%,transparent 70%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(245,230,66,.08) 0%,transparent 70%);pointer-events:none}
-.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(245,230,66,.12);border:1px solid rgba(245,230,66,.3);color:var(--y);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;margin-bottom:18px}
-.badge::before{content:'';width:6px;height:6px;background:var(--y);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
-.hero-title{font-family:'Syne',sans-serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:800;line-height:.95;letter-spacing:-3px;margin-bottom:18px}
-.hero-title .t2{color:var(--c);display:block}
-.hero-title .t3{-webkit-text-stroke:1px var(--txt);color:transparent;display:block}
-.hero-sub{color:var(--mut);font-size:14px;max-width:40ch;line-height:1.7;margin-bottom:28px}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--y);color:#0a0a0f;border:none;padding:12px 26px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
-.btn-primary:hover{background:var(--c);transform:translateY(-2px)}
-.btn-outline{background:transparent;color:var(--txt);border:1px solid var(--bdr);padding:12px 26px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s}
-.btn-outline:hover{border-color:var(--c);color:var(--c)}
-.hero-stats{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--bdr)}
-.sn{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--y)}
-.sl{font-size:10px;color:var(--mut);margin-top:2px;text-transform:uppercase;letter-spacing:.08em}
-.hero-img-wrap{display:flex;align-items:center;justify-content:center}
-.hero-img{width:90%;max-width:480px;aspect-ratio:1;object-fit:contain;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 0 60px rgba(0,229,255,.3))}
+/* ── HERO ── */
+.hero{min-height:88vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 clamp(1rem,5vw,5rem);gap:2rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,255,0.12) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(245,230,66,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(245,230,66,0.12);border:1px solid rgba(245,230,66,0.3);color:var(--yellow);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;margin-bottom:1.5rem}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--yellow);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
+.hero-title{font-family:var(--display);font-size:clamp(3rem,7vw,5.5rem);font-weight:800;line-height:0.95;letter-spacing:-0.04em;margin-bottom:1.5rem}
+.hero-title .t2{color:var(--cyan);display:block}
+.hero-title .t3{-webkit-text-stroke:1px var(--text);color:transparent;display:block}
+.hero-sub{color:var(--muted);font-size:1rem;max-width:40ch;line-height:1.7;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--yellow);color:#0a0a0f;border:none;padding:0.85rem 2rem;font-family:var(--display);font-size:0.88rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));display:inline-block;text-decoration:none}
+.btn-primary:hover{background:var(--cyan);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);padding:0.85rem 2rem;font-family:var(--display);font-size:0.88rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:inline-block;text-decoration:none}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.stat-num{font-family:var(--display);font-size:1.8rem;font-weight:800;color:var(--yellow)}
+.stat-label{font-size:0.75rem;color:var(--muted);margin-top:0.2rem;text-transform:uppercase;letter-spacing:0.06em}
+.hero-img-wrap{display:flex;align-items:center;justify-content:center;position:relative}
+.hero-img{width:90%;max-width:480px;aspect-ratio:1;object-fit:contain;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 0 60px rgba(0,229,255,0.3))}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 
-/* CAT STRIP */
-.cat-strip{background:var(--y);padding:10px clamp(1rem,5vw,5rem);display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+/* ── CAT STRIP ── */
+.cat-strip{background:var(--yellow);padding:0.7rem clamp(1rem,5vw,5rem);display:flex;align-items:center;gap:0.5rem;overflow-x:auto;scrollbar-width:none}
 .cat-strip::-webkit-scrollbar{display:none}
-.chip{background:#0a0a0f;color:var(--txt);border:none;padding:6px 16px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
-.chip:hover,.chip.active{background:var(--c);color:#0a0a0f}
+.cat-chip{background:#0a0a0f;color:var(--text);border:none;padding:0.4rem 1.1rem;font-family:var(--display);font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;text-decoration:none;display:inline-block}
+.cat-chip:hover{background:var(--cyan);color:#0a0a0f}
 
-/* SECTIONS */
-.section{padding:clamp(2rem,4vw,4rem) clamp(1rem,5vw,5rem)}
-.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px}
-.sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-1px}
-.sec-title span{color:var(--c)}
-.see-all{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);cursor:pointer;background:none;border:none;font-family:'Manrope',sans-serif;transition:color .2s}
-.see-all:hover{color:var(--y)}
+/* ── PRODUCT CARDS ── */
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.product-card{background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;text-decoration:none;display:block}
+.product-card:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.4)}
+.card-badge{position:absolute;top:0.75rem;left:0.75rem;z-index:2;font-family:var(--display);font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem}
+.badge-new{background:var(--cyan);color:#0a0a0f}
+.badge-sale{background:var(--pink);color:#fff}
+.badge-hot{background:var(--orange);color:#fff}
+.card-img-wrap{aspect-ratio:1;background:var(--surface2);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.card-img{width:75%;aspect-ratio:1;object-fit:contain;transition:transform 0.4s ease}
+.product-card:hover .card-img{transform:scale(1.08)}
+.card-overlay{position:absolute;inset:0;background:rgba(0,229,255,0.08);opacity:0;transition:opacity 0.25s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:1rem}
+.product-card:hover .card-overlay{opacity:1}
+.quick-add{background:var(--cyan);color:#0a0a0f;border:none;padding:0.55rem 1.4rem;font-family:var(--display);font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transform:translateY(10px);transition:transform 0.25s}
+.product-card:hover .quick-add{transform:translateY(0)}
+.card-info{padding:1rem 1.2rem 1.2rem}
+.card-brand{font-size:0.68rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem}
+.card-name{font-family:var(--display);font-size:0.95rem;font-weight:700;line-height:1.3;margin-bottom:0.5rem;color:var(--text)}
+.card-rating{display:flex;align-items:center;gap:0.4rem;margin-bottom:0.7rem}
+.stars{color:var(--yellow);font-size:0.75rem;letter-spacing:1px}
+.rating-count{font-size:0.72rem;color:var(--muted)}
+.card-price-row{display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap}
+.card-price{font-family:var(--display);font-size:1.1rem;font-weight:800;color:var(--yellow)}
+.card-original{font-size:0.82rem;color:var(--muted);text-decoration:line-through}
+.card-save{font-size:0.7rem;color:var(--green);font-weight:700}
 
-/* PRODUCT CARDS */
-.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.pcard{background:var(--surf);border:1px solid var(--bdr);cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
-.pcard:hover{border-color:var(--c);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.4)}
-.pbadge{position:absolute;top:10px;left:10px;z-index:2;font-family:'Syne',sans-serif;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px}
-.bn{background:var(--c);color:#0a0a0f}.bs{background:var(--pk);color:#fff}.bh{background:var(--or);color:#fff}
-.pimg-wrap{aspect-ratio:1;background:var(--surf2);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.pimg{width:72%;aspect-ratio:1;object-fit:contain;transition:transform .4s}
-.pcard:hover .pimg{transform:scale(1.08)}
-.overlay{position:absolute;inset:0;background:rgba(0,229,255,.07);opacity:0;transition:opacity .25s;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px}
-.pcard:hover .overlay{opacity:1}
-.qadd{background:var(--c);color:#0a0a0f;border:none;padding:7px 16px;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transform:translateY(10px);transition:transform .25s}
-.pcard:hover .qadd{transform:translateY(0)}
-.pinfo{padding:12px 14px 14px}
-.pbrand{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:3px}
-.pname{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;line-height:1.3;margin-bottom:6px}
-.rating-row{display:flex;align-items:center;gap:5px;margin-bottom:6px}
-.stars{color:var(--y);font-size:10px;letter-spacing:1px}
-.rcount{font-size:10px;color:var(--mut)}
-.pprow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.pprice{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--y)}
-.pold{font-size:11px;color:var(--mut);text-decoration:line-through}
-.psave{font-size:9px;color:var(--gr);font-weight:700}
+/* ── SECTION ── */
+.section{padding:4rem clamp(1rem,5vw,5rem)}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2.5rem}
+.section-title{font-family:var(--display);font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-0.02em}
+.section-title span{color:var(--cyan)}
+.see-all{font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--body);transition:color 0.2s;text-decoration:none}
+.see-all:hover{color:var(--yellow)}
 
-/* BANNERS */
-.bgrid{display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:0 clamp(1rem,5vw,5rem) clamp(2rem,4vw,4rem)}
-.banner{padding:28px;position:relative;overflow:hidden;cursor:pointer;transition:transform .2s;text-decoration:none;display:block}
+/* ── BANNERS ── */
+.banner-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;padding:0 clamp(1rem,5vw,5rem) 4rem}
+.banner{padding:2.5rem;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.2s;text-decoration:none;display:block}
 .banner:hover{transform:translateY(-3px)}
-.b1{background:linear-gradient(135deg,#1a0a2e,#0a1a3a);border:1px solid rgba(0,229,255,.2)}
-.b2{background:linear-gradient(135deg,#2a0a14,#1a0a0a);border:1px solid rgba(255,45,120,.2)}
-.btag{font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--c);margin-bottom:8px}
-.b2 .btag{color:var(--pk)}
-.btitle{font-family:'Syne',sans-serif;font-size:clamp(1.1rem,2.5vw,1.7rem);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:10px}
-.bsub{font-size:12px;color:var(--mut);margin-bottom:16px}
-.bcta{display:inline-block;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#0a0a0f;background:var(--c);padding:7px 16px;border:none;cursor:pointer;transition:opacity .2s}
-.bcta:hover{opacity:.85}
-.b2 .bcta{background:var(--pk);color:#fff}
+.banner-1{background:linear-gradient(135deg,#1a0a2e 0%,#0a1a3a 100%);border:1px solid rgba(0,229,255,0.2)}
+.banner-2{background:linear-gradient(135deg,#2a0a14 0%,#1a0a0a 100%);border:1px solid rgba(255,45,120,0.2)}
+.banner-tag{font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.7rem}
+.banner-2 .banner-tag{color:var(--pink)}
+.banner-title{font-family:var(--display);font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin-bottom:0.8rem;color:var(--text)}
+.banner-sub{font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem}
+.banner-cta{display:inline-block;font-family:var(--display);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0a0a0f;background:var(--cyan);padding:0.5rem 1.2rem;border:none;cursor:pointer}
+.banner-2 .banner-cta{background:var(--pink);color:#fff}
 
-/* FEATURES */
-.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bdr);margin:0 clamp(1rem,5vw,5rem) clamp(2rem,4vw,4rem)}
-.feat{background:var(--surf);padding:20px;display:flex;align-items:flex-start;gap:14px}
-.ficon{font-size:1.8rem;flex-shrink:0}
-.ftitle{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:4px}
-.fdesc{font-size:11px;color:var(--mut);line-height:1.5}
+/* ── FEATURES ── */
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin:0 clamp(1rem,5vw,5rem) 4rem}
+.feature{background:var(--surface);padding:1.8rem;display:flex;align-items:flex-start;gap:1rem}
+.feature-icon{font-size:1.8rem;flex-shrink:0}
+.feature-title{font-family:var(--display);font-size:0.9rem;font-weight:700;margin-bottom:0.3rem}
+.feature-desc{font-size:0.78rem;color:var(--muted);line-height:1.5}
 
-/* NEWSLETTER */
-.nl{background:var(--c);padding:clamp(2rem,4vw,3rem) clamp(1rem,5vw,5rem);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
-.nl h3{font-family:'Syne',sans-serif;font-size:clamp(1.2rem,3vw,1.8rem);font-weight:800;color:#0a0a0f;letter-spacing:-1px}
-.nl p{font-size:12px;color:rgba(0,0,0,.6);margin-top:4px}
+/* ── NEWSLETTER ── */
+.newsletter-strip{background:var(--cyan);padding:3rem clamp(1rem,5vw,5rem);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.nl-text h3{font-family:var(--display);font-size:1.5rem;font-weight:800;color:#0a0a0f;letter-spacing:-0.02em}
+.nl-text p{font-size:0.88rem;color:rgba(0,0,0,0.6);margin-top:0.3rem}
 .nl-form{display:flex}
-.nl-form input{background:rgba(0,0,0,.12);border:none;padding:10px 16px;color:#0a0a0f;font-family:'Manrope',sans-serif;font-size:13px;outline:none;width:220px}
-.nl-form input::placeholder{color:rgba(0,0,0,.4)}
-.nl-form button{background:#0a0a0f;color:var(--y);border:none;padding:10px 16px;font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s}
-.nl-form button:hover{background:var(--y);color:#0a0a0f}
+.nl-form input{background:rgba(0,0,0,0.12);border:none;padding:0.8rem 1.2rem;color:#0a0a0f;font-family:var(--body);font-size:0.88rem;outline:none;width:240px}
+.nl-form input::placeholder{color:rgba(0,0,0,0.4)}
+.nl-form button{background:#0a0a0f;color:var(--yellow);border:none;padding:0.8rem 1.4rem;font-family:var(--display);font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background 0.2s}
+.nl-form button:hover{background:var(--yellow);color:#0a0a0f}
 
-/* FOOTER */
-footer{background:var(--surf);border-top:1px solid var(--bdr);padding:clamp(2rem,4vw,3.5rem) clamp(1rem,5vw,5rem);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem}
-.fc h4{font-family:'Syne',sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--txt);margin-bottom:14px}
-.fc ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-.fc ul a{font-size:12px;color:var(--mut);cursor:pointer;transition:color .2s;text-decoration:none}
-.fc ul a:hover{color:var(--y)}
-.fdesc{font-size:12px;color:var(--mut);margin-top:8px;max-width:22ch;line-height:1.7}
-.fbot{border-top:1px solid var(--bdr);padding:14px clamp(1rem,5vw,5rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:11px;color:var(--mut)}
-.fsoc{display:flex;gap:6px}
-.sb{background:var(--surf2);border:1px solid var(--bdr);color:var(--mut);width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:all .2s;text-decoration:none}
-.sb:hover{background:var(--y);color:#0a0a0f;border-color:var(--y)}
+/* ── FOOTER ── */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:clamp(2rem,5vw,3.5rem) clamp(1rem,5vw,5rem);display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem}
+.footer-brand-desc{font-size:0.85rem;color:var(--muted);max-width:26ch;line-height:1.7;margin-top:0.8rem}
+.footer-col h4{font-family:var(--display);font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.footer-col ul a{font-size:0.85rem;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.footer-col ul a:hover{color:var(--yellow)}
+.footer-bottom{border-top:1px solid var(--border);padding:1.2rem clamp(1rem,5vw,5rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:0.78rem;color:var(--muted)}
+.footer-socials{display:flex;gap:0.6rem}
+.social-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;cursor:pointer;transition:all 0.2s;text-decoration:none}
+.social-btn:hover{background:var(--yellow);color:#0a0a0f;border-color:var(--yellow)}
 
-/* CART DRAWER */
-.cdover{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
-.cdover.open{opacity:1;pointer-events:all}
-.cdrawer{position:fixed;top:0;right:0;width:380px;max-width:100vw;height:100vh;background:var(--surf);border-left:1px solid var(--bdr);z-index:100;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
-.cdrawer.open{transform:translateX(0)}
-.cdhead{padding:16px 18px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center}
-.cdhead h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
-.cclose{background:none;border:none;color:var(--mut);font-size:1.5rem;cursor:pointer;line-height:1}
-.cclose:hover{color:var(--txt)}
-.citems{flex:1;overflow-y:auto;padding:14px 18px}
-.cempty{text-align:center;padding:50px 10px;color:var(--mut)}
-.cempty .eicon{font-size:3rem;margin-bottom:12px}
-.cempty p{font-family:'Syne',sans-serif;font-size:.95rem}
-.citem{display:grid;grid-template-columns:64px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--bdr);align-items:start}
-.cithumb{width:64px;height:64px;background:var(--surf2);display:flex;align-items:center;justify-content:center}
-.cithumb img{width:80%;height:80%;object-fit:contain}
-.ciname{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;line-height:1.3;margin-bottom:3px}
-.cibrand{font-size:10px;color:var(--mut);margin-bottom:7px}
-.ciqty{display:flex;align-items:center;gap:6px}
-.cqb{background:var(--surf2);border:1px solid var(--bdr);color:var(--txt);width:24px;height:24px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;font-family:'Manrope',sans-serif}
-.cqb:hover{background:var(--y);color:#0a0a0f;border-color:var(--y)}
-.cqn{font-size:12px;font-weight:700;min-width:20px;text-align:center}
-.ciprice{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--y);white-space:nowrap}
-.cirm{background:none;border:none;color:var(--mut);cursor:pointer;font-size:10px;display:block;margin-top:5px;transition:color .2s;font-family:'Manrope',sans-serif;padding:0}
-.cirm:hover{color:var(--pk)}
-.cfoot{padding:16px 18px;border-top:1px solid var(--bdr)}
-.crow{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:7px}
-.ctotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.ctotal span:first-child{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem}
-.ctotal span:last-child{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--y)}
-.ccheckout{width:100%;background:var(--y);color:#0a0a0f;border:none;padding:12px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s}
-.ccheckout:hover{background:var(--c)}
-
-/* TOAST */
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--gr);color:#0a0a0f;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;padding:10px 22px;z-index:999;transition:transform .3s;white-space:nowrap;pointer-events:none}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:#0a0a0f;font-family:var(--display);font-size:0.85rem;font-weight:700;padding:0.8rem 1.8rem;z-index:9999;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-/* RESPONSIVE */
-@media(max-width:1200px){.pgrid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:1024px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:3rem;padding-bottom:3rem;text-align:center}.hero-sub{margin:0 auto 28px}.hero-btns{justify-content:center}.hero-img-wrap{display:none}.hero-stats{justify-content:center}.bgrid{grid-template-columns:1fr}.feats{grid-template-columns:1fr 1fr}footer{grid-template-columns:1fr 1fr}}
-@media(max-width:768px){.nav-links,.search-box{display:none}.hamburger{display:flex}.pgrid{grid-template-columns:repeat(2,1fr)}.feats{grid-template-columns:1fr}.nl{flex-direction:column}.nl-form{flex-direction:column;width:100%}.nl-form input{width:100%}footer{grid-template-columns:1fr 1fr}.fbot{flex-direction:column;text-align:center}}
-@media(max-width:480px){.pgrid{grid-template-columns:1fr}footer{grid-template-columns:1fr}}
+/* ── RESPONSIVE ── */
+@media(max-width:1200px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:3rem;padding-bottom:3rem;text-align:center}
+  .hero-sub{margin:0 auto 2.5rem}
+  .hero-actions{justify-content:center}
+  .hero-img-wrap{display:none}
+  .hero-stats{justify-content:center}
+  .banner-grid{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr 1fr}
+  footer{grid-template-columns:1fr 1fr;gap:2.5rem}
+}
+@media(max-width:768px){
+  .nav-links,.search-box{display:none}
+  .hamburger{display:flex}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .features{grid-template-columns:1fr}
+  .newsletter-strip{flex-direction:column}
+  .nl-form{flex-direction:column;width:100%}
+  .nl-form input{width:100%}
+  footer{grid-template-columns:1fr 1fr}
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+@media(max-width:480px){
+  .products-grid{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="logo" onclick="filterCat('All')">VOLT<span>.</span></div>
+<nav>
+  <a class="logo" href="index.html">VOLT<span>.</span></a>
   <ul class="nav-links">
-    <li><a onclick="filterCat('All')">Shop</a></li>
-    <li><a onclick="filterCat('Phones')">Phones</a></li>
-    <li><a onclick="filterCat('Laptops')">Laptops</a></li>
-    <li><a onclick="filterCat('Audio')">Audio</a></li>
-    <li><a onclick="filterCat('Wearables')">Wearables</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="shop.html?cat=Phones">Phones</a></li>
+    <li><a href="shop.html?cat=Laptops">Laptops</a></li>
+    <li><a href="shop.html?cat=Audio">Audio</a></li>
+    <li><a href="about.html">About</a></li>
   </ul>
   <div class="nav-right">
     <div class="search-box">
       <span>⌕</span>
-      <input type="text" placeholder="Search products..." oninput="handleSearch(this.value)"/>
+      <input type="text" placeholder="Search..." onkeydown="if(event.key==='Enter')location.href='shop.html?q='+this.value"/>
     </div>
-    <button class="cart-btn" onclick="openCart()">🛒 Cart <span class="cbadge" id="cbadge">0</span></button>
+    <a href="cart.html" class="cart-btn">🛒 Cart <span class="cart-count" id="cart-count">0</span></a>
   </div>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a onclick="filterCat('All');closeMobile()">Shop</a>
-  <a onclick="filterCat('Phones');closeMobile()">Phones</a>
-  <a onclick="filterCat('Laptops');closeMobile()">Laptops</a>
-  <a onclick="filterCat('Audio');closeMobile()">Audio</a>
-  <a onclick="filterCat('Wearables');closeMobile()">Wearables</a>
-  <a onclick="openCart();closeMobile()">Cart</a>
+  <a href="shop.html">Shop</a>
+  <a href="shop.html?cat=Phones">Phones</a>
+  <a href="shop.html?cat=Laptops">Laptops</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">Cart</a>
 </div>
 
 <!-- HERO -->
 <section class="hero">
   <div>
-    <div class="badge">New Arrivals 2026</div>
+    <div class="hero-badge">New Arrivals 2026</div>
     <h1 class="hero-title">Next-Gen<br><span class="t2">Electronics</span><span class="t3">Redefined.</span></h1>
     <p class="hero-sub">Cutting-edge devices, unbeatable prices. From flagship phones to pro audio gear — all in one place.</p>
-    <div class="hero-btns">
-      <button class="btn-primary" onclick="filterCat('All')">Shop Now</button>
-      <button class="btn-outline" onclick="filterCat('Phones')">View Phones</button>
+    <div class="hero-actions">
+      <a href="shop.html" class="btn-primary">Shop Now</a>
+      <a href="shop.html?cat=Phones" class="btn-outline">View Phones</a>
     </div>
     <div class="hero-stats">
-      <div><div class="sn">500+</div><div class="sl">Products</div></div>
-      <div><div class="sn">4.9★</div><div class="sl">Rating</div></div>
-      <div><div class="sn">48h</div><div class="sl">Delivery</div></div>
-      <div><div class="sn">2.5M</div><div class="sl">Customers</div></div>
+      <div><div class="stat-num">500+</div><div class="stat-label">Products</div></div>
+      <div><div class="stat-num">4.9★</div><div class="stat-label">Rating</div></div>
+      <div><div class="stat-num">48h</div><div class="stat-label">Delivery</div></div>
+      <div><div class="stat-num">2.5M</div><div class="stat-label">Customers</div></div>
     </div>
   </div>
   <div class="hero-img-wrap">
-    <img class="hero-img" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80&fit=crop" alt="Phone"/>
+    <img class="hero-img" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80&fit=crop" alt="Hero Phone"/>
   </div>
 </section>
 
 <!-- CAT STRIP -->
 <div class="cat-strip">
-  <button class="chip active" onclick="filterCat('All',this)">All</button>
-  <button class="chip" onclick="filterCat('Phones',this)">📱 Phones</button>
-  <button class="chip" onclick="filterCat('Laptops',this)">💻 Laptops</button>
-  <button class="chip" onclick="filterCat('Audio',this)">🎧 Audio</button>
-  <button class="chip" onclick="filterCat('Wearables',this)">⌚ Wearables</button>
-  <button class="chip" onclick="filterCat('Gaming',this)">🎮 Gaming</button>
-  <button class="chip" onclick="filterCat('Cameras',this)">📷 Cameras</button>
-  <button class="chip" onclick="filterCat('Accessories',this)">🔌 Accessories</button>
+  <a class="cat-chip" href="shop.html">All</a>
+  <a class="cat-chip" href="shop.html?cat=Phones">📱 Phones</a>
+  <a class="cat-chip" href="shop.html?cat=Laptops">💻 Laptops</a>
+  <a class="cat-chip" href="shop.html?cat=Audio">🎧 Audio</a>
+  <a class="cat-chip" href="shop.html?cat=Wearables">⌚ Wearables</a>
+  <a class="cat-chip" href="shop.html?cat=Gaming">🎮 Gaming</a>
+  <a class="cat-chip" href="shop.html?cat=Cameras">📷 Cameras</a>
+  <a class="cat-chip" href="shop.html?cat=Accessories">🔌 Accessories</a>
 </div>
 
-<!-- FEATURED -->
-<div class="section">
-  <div class="sec-head">
-    <h2 class="sec-title">Featured <span>Picks</span></h2>
-    <button class="see-all" onclick="filterCat('All')">See All →</button>
+<!-- FEATURED PRODUCTS -->
+<section class="section">
+  <div class="section-head">
+    <h2 class="section-title">Featured <span>Picks</span></h2>
+    <a href="shop.html" class="see-all">See All →</a>
   </div>
-  <div class="pgrid" id="pgrid"></div>
-</div>
+  <div class="products-grid" id="featured-grid"></div>
+</section>
 
 <!-- BANNERS -->
-<div class="bgrid">
-  <div class="banner b1" onclick="filterCat('Phones')">
-    <p class="btag">Limited Deal</p>
-    <h3 class="btitle">iPhone 16 Pro Max<br>Up to 20% Off</h3>
-    <p class="bsub">For a limited time only. Don't miss out on the best iPhone ever.</p>
-    <button class="bcta">Shop Phones</button>
-  </div>
-  <div class="banner b2" onclick="filterCat('Audio')">
-    <p class="btag">New Drop</p>
-    <h3 class="btitle">Pro Audio<br>Collection</h3>
-    <p class="bsub">Studio-grade sound for everyone.</p>
-    <button class="bcta">Shop Audio</button>
-  </div>
+<div class="banner-grid">
+  <a class="banner banner-1" href="shop.html?cat=Phones">
+    <p class="banner-tag">Limited Deal</p>
+    <h3 class="banner-title">iPhone 16 Pro Max<br>Up to 20% Off</h3>
+    <p class="banner-sub">For a limited time only. Don't miss out on the best iPhone ever.</p>
+    <span class="banner-cta">Shop Phones</span>
+  </a>
+  <a class="banner banner-2" href="shop.html?cat=Audio">
+    <p class="banner-tag">New Drop</p>
+    <h3 class="banner-title">Pro Audio<br>Collection</h3>
+    <p class="banner-sub">Studio-grade sound for everyone.</p>
+    <span class="banner-cta">Shop Audio</span>
+  </a>
 </div>
 
 <!-- NEW ARRIVALS -->
-<div class="section" style="padding-top:0">
-  <div class="sec-head">
-    <h2 class="sec-title">New <span>Arrivals</span></h2>
-    <button class="see-all" onclick="filterCat('All')">See All →</button>
+<section class="section" style="padding-top:0">
+  <div class="section-head">
+    <h2 class="section-title">New <span>Arrivals</span></h2>
+    <a href="shop.html" class="see-all">See All →</a>
   </div>
-  <div class="pgrid" id="ngrid"></div>
-</div>
+  <div class="products-grid" id="new-grid"></div>
+</section>
 
 <!-- FEATURES -->
-<div class="feats">
-  <div class="feat"><span class="ficon">🚚</span><div><div class="ftitle">Fast Delivery</div><div class="fdesc">Free shipping on orders above ₹999. Delivered in 48 hours.</div></div></div>
-  <div class="feat"><span class="ficon">🔒</span><div><div class="ftitle">Secure Payment</div><div class="fdesc">256-bit SSL encryption on all transactions.</div></div></div>
-  <div class="feat"><span class="ficon">↩️</span><div><div class="ftitle">Easy Returns</div><div class="fdesc">30-day hassle-free return policy. Free pickup.</div></div></div>
-  <div class="feat"><span class="ficon">🛡️</span><div><div class="ftitle">Warranty</div><div class="fdesc">All products include manufacturer warranty.</div></div></div>
+<div class="features">
+  <div class="feature"><span class="feature-icon">🚚</span><div><div class="feature-title">Fast Delivery</div><div class="feature-desc">Free shipping on orders above ₹999. Delivered in 48 hours.</div></div></div>
+  <div class="feature"><span class="feature-icon">🔒</span><div><div class="feature-title">Secure Payment</div><div class="feature-desc">256-bit SSL encryption on all transactions.</div></div></div>
+  <div class="feature"><span class="feature-icon">↩️</span><div><div class="feature-title">Easy Returns</div><div class="feature-desc">30-day hassle-free return policy. Free pickup.</div></div></div>
+  <div class="feature"><span class="feature-icon">🛡️</span><div><div class="feature-title">Warranty</div><div class="feature-desc">All products include manufacturer warranty.</div></div></div>
 </div>
 
 <!-- NEWSLETTER -->
-<div class="nl">
-  <div><h3>Stay in the Loop</h3><p>Exclusive deals and new arrivals in your inbox.</p></div>
+<div class="newsletter-strip">
+  <div class="nl-text"><h3>Stay in the Loop</h3><p>Get exclusive deals and new arrivals in your inbox.</p></div>
   <div class="nl-form">
-    <input type="email" placeholder="your@email.com" id="nl-inp"/>
-    <button onclick="nlSub()">Subscribe</button>
+    <input type="email" id="nl-email" placeholder="your@email.com"/>
+    <button onclick="nlSubscribe()">Subscribe</button>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="fc">
-    <div class="logo">VOLT<span>.</span></div>
-    <p class="fdesc">Next-gen electronics at unbeatable prices. India's most trusted tech store.</p>
+  <div>
+    <a class="logo" href="index.html">VOLT<span>.</span></a>
+    <p class="footer-brand-desc">Next-gen electronics at unbeatable prices. India's most trusted tech store.</p>
   </div>
-  <div class="fc"><h4>Shop</h4><ul>
-    <li><a onclick="filterCat('All')">All Products</a></li>
-    <li><a onclick="filterCat('Phones')">Phones</a></li>
-    <li><a onclick="filterCat('Laptops')">Laptops</a></li>
-    <li><a onclick="filterCat('Audio')">Audio</a></li>
-    <li><a onclick="filterCat('Wearables')">Wearables</a></li>
+  <div class="footer-col"><h4>Shop</h4><ul>
+    <li><a href="shop.html">All Products</a></li>
+    <li><a href="shop.html?cat=Phones">Phones</a></li>
+    <li><a href="shop.html?cat=Laptops">Laptops</a></li>
+    <li><a href="shop.html?cat=Audio">Audio</a></li>
+    <li><a href="shop.html?cat=Wearables">Wearables</a></li>
   </ul></div>
-  <div class="fc"><h4>Company</h4><ul>
-    <li><a>About Us</a></li><li><a>Contact</a></li><li><a>Blog</a></li><li><a>Careers</a></li>
+  <div class="footer-col"><h4>Company</h4><ul>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="#">Careers</a></li>
   </ul></div>
-  <div class="fc"><h4>Support</h4><ul>
-    <li><a>FAQ</a></li><li><a>Shipping</a></li><li><a>Returns</a></li><li><a>Warranty</a></li>
+  <div class="footer-col"><h4>Support</h4><ul>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="#">Shipping Info</a></li>
+    <li><a href="#">Returns</a></li>
+    <li><a href="#">Warranty</a></li>
   </ul></div>
 </footer>
-<div class="fbot">
-  <span>© 2026 VOLT Electronics. All rights reserved.</span>
-  <div class="fsoc">
-    <a class="sb">𝕏</a><a class="sb">f</a><a class="sb">in</a><a class="sb">▶</a>
-  </div>
-</div>
-
-<!-- CART DRAWER -->
-<div class="cdover" id="cdover" onclick="closeCart()"></div>
-<div class="cdrawer" id="cdrawer">
-  <div class="cdhead"><h3>Your Cart</h3><button class="cclose" onclick="closeCart()">×</button></div>
-  <div class="citems" id="citems"></div>
-  <div class="cfoot" id="cfoot" style="display:none">
-    <div class="crow"><span>Subtotal</span><span id="csub"></span></div>
-    <div class="crow"><span>Shipping</span><span style="color:var(--gr)">FREE</span></div>
-    <div class="crow"><span>GST (18%)</span><span id="ctax"></span></div>
-    <div class="ctotal"><span>Total</span><span id="ctot"></span></div>
-    <button class="ccheckout" onclick="toast('Checkout! Download all 11 files for the full checkout page.')">Proceed to Checkout →</button>
+<div class="footer-bottom">
+  <p>© 2026 VOLT Electronics. All rights reserved.</p>
+  <div class="footer-socials">
+    <a class="social-btn">𝕏</a>
+    <a class="social-btn">📘</a>
+    <a class="social-btn">📸</a>
+    <a class="social-btn">▶️</a>
   </div>
 </div>
 
@@ -367,115 +356,74 @@ const products=[
   {id:12,name:'Logitech MX Master 4',brand:'Logitech',cat:'Accessories',price:9999,orig:11999,badge:'new',rating:4.8,reviews:2109,img:'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&q=80&fit=crop'},
 ];
 
-let cart=[];
-
-const fmt=p=>'₹'+Number(p).toLocaleString('en-IN');
-const stars=r=>'★'.repeat(Math.floor(r))+(r%1>=.5?'½':'');
-const bdg=b=>{if(!b)return'';const m={new:'bn',sale:'bs',hot:'bh'};return`<span class="pbadge ${m[b]}">${b.toUpperCase()}</span>`};
+function fmt(p){return'₹'+Number(p).toLocaleString('en-IN')}
+function stars(r){return'★'.repeat(Math.floor(r))+(r%1>=.5?'½':'')}
+function bdg(b){if(!b)return'';const m={new:'badge-new',sale:'badge-sale',hot:'badge-hot'};return`<span class="card-badge ${m[b]}">${b.toUpperCase()}</span>`}
 
 function cardHTML(p){
   const s=Math.round((p.orig-p.price)/p.orig*100);
-  return`<div class="pcard" onclick="prodClick(${p.id})">
+  return`<a class="product-card" href="product.html?id=${p.id}">
     ${bdg(p.badge)}
-    <div class="pimg-wrap">
-      <img class="pimg" src="${p.img}" alt="${p.name}" loading="lazy">
-      <div class="overlay"><button class="qadd" onclick="event.stopPropagation();addCart(${p.id})">+ Add to Cart</button></div>
-    </div>
-    <div class="pinfo">
-      <div class="pbrand">${p.brand}</div>
-      <div class="pname">${p.name}</div>
-      <div class="rating-row"><span class="stars">${stars(p.rating)}</span><span class="rcount">(${p.reviews.toLocaleString()})</span></div>
-      <div class="pprow"><span class="pprice">${fmt(p.price)}</span><span class="pold">${fmt(p.orig)}</span><span class="psave">${s}% off</span></div>
-    </div>
-  </div>`;
-}
-
-function filterCat(cat,btn){
-  if(btn){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active')}
-  const list=cat==='All'?products:products.filter(p=>p.cat===cat);
-  document.getElementById('pgrid').innerHTML=list.slice(0,8).map(cardHTML).join('');
-  const newArr=products.filter(p=>p.badge==='new'&&(cat==='All'||p.cat===cat));
-  document.getElementById('ngrid').innerHTML=newArr.slice(0,4).map(cardHTML).join('');
-}
-
-function handleSearch(q){
-  const lower=q.toLowerCase();
-  const res=!q?products:products.filter(p=>p.name.toLowerCase().includes(lower)||p.brand.toLowerCase().includes(lower)||p.cat.toLowerCase().includes(lower));
-  document.getElementById('pgrid').innerHTML=res.slice(0,8).map(cardHTML).join('');
-  document.getElementById('ngrid').innerHTML=res.filter(p=>p.badge==='new').slice(0,4).map(cardHTML).join('');
-}
-
-function prodClick(id){
-  const p=products.find(x=>x.id===id);
-  toast(`${p.name} — ${fmt(p.price)} · Hover & click "Add to Cart"`);
-}
-
-function addCart(id){
-  const p=products.find(x=>x.id===id);
-  const ex=cart.find(c=>c.id===id);
-  if(ex)ex.qty=Math.min(ex.qty+1,10);
-  else cart.push({...p,qty:1});
-  updateBadge();
-  toast(`${p.name} added to cart! 🛒`);
-}
-
-function rmCart(id){cart=cart.filter(c=>c.id!==id);updateBadge();renderCart()}
-function chQty(id,d){const it=cart.find(c=>c.id===id);if(it){it.qty=Math.max(1,Math.min(10,it.qty+d));updateBadge();renderCart()}}
-function updateBadge(){document.getElementById('cbadge').textContent=cart.reduce((s,c)=>s+c.qty,0)}
-
-function openCart(){renderCart();document.getElementById('cdover').classList.add('open');document.getElementById('cdrawer').classList.add('open')}
-function closeCart(){document.getElementById('cdover').classList.remove('open');document.getElementById('cdrawer').classList.remove('open')}
-
-function renderCart(){
-  const el=document.getElementById('citems'),ft=document.getElementById('cfoot');
-  if(!cart.length){
-    el.innerHTML='<div class="cempty"><div class="eicon">🛒</div><p>Your cart is empty</p><p style="font-size:11px;color:var(--mut);margin-top:6px">Add some cool products!</p></div>';
-    ft.style.display='none';return;
-  }
-  el.innerHTML=cart.map(c=>`<div class="citem">
-    <div class="cithumb"><img src="${c.img}" alt="${c.name}"></div>
-    <div>
-      <div class="ciname">${c.name}</div>
-      <div class="cibrand">${c.brand}</div>
-      <div class="ciqty">
-        <button class="cqb" onclick="chQty(${c.id},-1)">−</button>
-        <span class="cqn">${c.qty}</span>
-        <button class="cqb" onclick="chQty(${c.id},1)">+</button>
+    <div class="card-img-wrap">
+      <img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy">
+      <div class="card-overlay">
+        <button class="quick-add" onclick="event.preventDefault();addCart(${p.id},event)">+ Add to Cart</button>
       </div>
-      <button class="cirm" onclick="rmCart(${c.id})">Remove</button>
     </div>
-    <div class="ciprice">${fmt(c.price*c.qty)}</div>
-  </div>`).join('');
-  const sub=cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const tax=Math.round(sub*.18);
-  document.getElementById('csub').textContent=fmt(sub);
-  document.getElementById('ctax').textContent=fmt(tax);
-  document.getElementById('ctot').textContent=fmt(sub+tax);
-  ft.style.display='block';
+    <div class="card-info">
+      <div class="card-brand">${p.brand}</div>
+      <div class="card-name">${p.name}</div>
+      <div class="card-rating"><span class="stars">${stars(p.rating)}</span><span class="rating-count">(${p.reviews.toLocaleString()})</span></div>
+      <div class="card-price-row">
+        <span class="card-price">${fmt(p.price)}</span>
+        <span class="card-original">${fmt(p.orig)}</span>
+        <span class="card-save">${s}% off</span>
+      </div>
+    </div>
+  </a>`;
 }
 
-function toast(msg){
+function addCart(id,e){
+  if(e)e.stopPropagation();
+  const p=products.find(x=>x.id===id);
+  try{
+    let cart=JSON.parse(localStorage.getItem('volt_cart')||'[]');
+    const ex=cart.find(c=>c.id===id);
+    if(ex)ex.qty=Math.min(ex.qty+1,10);
+    else cart.push({id:p.id,name:p.name,brand:p.brand,price:p.price,img:p.img,qty:1});
+    localStorage.setItem('volt_cart',JSON.stringify(cart));
+    document.getElementById('cart-count').textContent=cart.reduce((s,c)=>s+c.qty,0);
+  }catch(err){}
+  showToast(p.name+' added to cart! 🛒');
+}
+
+function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-function nlSub(){
-  const v=document.getElementById('nl-inp').value;
-  if(v.includes('@')){toast('Subscribed! Welcome to VOLT 🎉');document.getElementById('nl-inp').value='';}
-  else toast('Please enter a valid email address');
+function nlSubscribe(){
+  const v=document.getElementById('nl-email').value;
+  if(v.includes('@')){showToast('Subscribed! Welcome to VOLT 🎉');document.getElementById('nl-email').value='';}
+  else showToast('Please enter a valid email');
 }
 
+// Hamburger
 document.getElementById('hamburger').addEventListener('click',function(){
   this.classList.toggle('open');
   document.getElementById('mobileMenu').classList.toggle('open');
 });
-function closeMobile(){
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('mobileMenu').classList.remove('open');
-}
 
-filterCat('All');
+// Cart count from localStorage
+try{
+  const c=JSON.parse(localStorage.getItem('volt_cart')||'[]');
+  document.getElementById('cart-count').textContent=c.reduce((s,x)=>s+x.qty,0);
+}catch(e){}
+
+// Render grids
+document.getElementById('featured-grid').innerHTML=products.slice(0,8).map(cardHTML).join('');
+document.getElementById('new-grid').innerHTML=products.filter(p=>p.badge==='new').map(cardHTML).join('');
 </script>
 </body>
 </html>
