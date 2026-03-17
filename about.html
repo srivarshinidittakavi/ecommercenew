@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>About Us — VOLT Electronics</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.about-hero{padding:clamp(4rem,10vw,8rem) clamp(1rem,5vw,5rem);display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.about-hero::before{content:'';position:absolute;top:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(245,230,66,0.1) 0%,transparent 70%);pointer-events:none}
+.about-tag{font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem}
+.about-title{font-family:var(--display);font-size:clamp(2.5rem,6vw,5rem);font-weight:800;line-height:0.95;letter-spacing:-0.04em;margin-bottom:1.5rem}
+.about-title span{color:var(--yellow)}
+.about-lead{font-size:1.05rem;color:var(--muted);line-height:1.8;max-width:44ch}
+.about-img{width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--border)}
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat-box{background:var(--surface);padding:2.5rem;text-align:center}
+.stat-big{font-family:var(--display);font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--yellow);margin-bottom:0.3rem}
+.stat-lbl{font-size:0.78rem;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase}
+/* MISSION */
+.mission{display:grid;grid-template-columns:1fr 1fr;gap:4rem;padding:5rem clamp(1rem,5vw,5rem);align-items:center;border-bottom:1px solid var(--border)}
+.mission-title{font-family:var(--display);font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:1.5rem}
+.mission-title span{color:var(--cyan)}
+.mission-text{font-size:0.95rem;color:var(--muted);line-height:1.9;margin-bottom:1.2rem}
+.mission-visual{background:var(--surface);border:1px solid var(--border);padding:3rem;display:flex;flex-direction:column;gap:1.5rem}
+.mission-point{display:flex;align-items:start;gap:1.2rem}
+.mission-icon{font-size:1.6rem;flex-shrink:0}
+.mission-point-title{font-family:var(--display);font-size:0.9rem;font-weight:700;margin-bottom:0.3rem}
+.mission-point-text{font-size:0.83rem;color:var(--muted);line-height:1.6}
+/* TEAM */
+.team{padding:5rem clamp(1rem,5vw,5rem);border-bottom:1px solid var(--border)}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem}
+.team-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;transition:all 0.25s}
+.team-card:hover{border-color:var(--cyan);transform:translateY(-4px)}
+.team-img{width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(30%)}
+.team-card:hover .team-img{filter:none}
+.team-info{padding:1.2rem}
+.team-name{font-family:var(--display);font-size:1rem;font-weight:700;margin-bottom:0.2rem}
+.team-role{font-size:0.75rem;color:var(--cyan);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.6rem}
+.team-bio{font-size:0.8rem;color:var(--muted);line-height:1.6}
+/* TIMELINE */
+.timeline{padding:5rem clamp(1rem,5vw,5rem);border-bottom:1px solid var(--border)}
+.timeline-list{position:relative;padding-left:2rem;margin-top:2.5rem;max-width:700px}
+.timeline-list::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:2.5rem;padding-left:1.5rem}
+.tl-item::before{content:'';position:absolute;left:-2.4rem;top:6px;width:12px;height:12px;border-radius:50%;background:var(--yellow);border:2px solid var(--bg)}
+.tl-year{font-family:var(--display);font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.3rem}
+.tl-event{font-family:var(--display);font-size:1rem;font-weight:700;margin-bottom:0.3rem}
+.tl-desc{font-size:0.85rem;color:var(--muted);line-height:1.6}
+/* CTA */
+.about-cta{background:var(--yellow);padding:4rem clamp(1rem,5vw,5rem);text-align:center}
+.about-cta h2{font-family:var(--display);font-size:clamp(2rem,5vw,3rem);font-weight:800;color:#0a0a0f;letter-spacing:-0.03em;margin-bottom:0.8rem}
+.about-cta p{color:rgba(0,0,0,0.6);margin-bottom:2rem;font-size:1rem}
+.about-cta .btn-dark{background:#0a0a0f;color:var(--yellow);border:none;padding:0.9rem 2.5rem;font-family:var(--display);font-size:0.9rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:all 0.2s}
+.about-cta .btn-dark:hover{background:var(--cyan);color:#0a0a0f}
+@media(max-width:900px){.about-hero{grid-template-columns:1fr}.about-img{display:none}.stats-bar{grid-template-columns:repeat(2,1fr)}.mission{grid-template-columns:1fr}.team-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.team-grid{grid-template-columns:1fr}.stats-bar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">VOLT<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="shop.html?cat=Phones">Phones</a></li>
+    <li><a href="shop.html?cat=Laptops">Laptops</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="cart.html" class="cart-btn"><span>🛒</span><span class="cart-label">Cart</span><span class="cart-count">0</span></a>
+  </div>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="cart.html">Cart (<span class="mob-cart-count">0</span>)</a>
+</div>
+
+<div class="breadcrumb"><a href="index.html">Home</a> › <span>About Us</span></div>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div>
+    <p class="about-tag">Our Story</p>
+    <h1 class="about-title">We Live &<br><span>Breathe</span> Tech</h1>
+    <p class="about-lead">Founded in 2019 in Hyderabad, VOLT was born from a simple frustration: great technology was too hard to find at honest prices. We set out to change that — and we're still at it.</p>
+  </div>
+  <img class="about-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80&fit=crop" alt="VOLT Team"/>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-box"><div class="stat-big">500+</div><div class="stat-lbl">Products</div></div>
+  <div class="stat-box"><div class="stat-big">2.5M+</div><div class="stat-lbl">Happy Customers</div></div>
+  <div class="stat-box"><div class="stat-big">4.9★</div><div class="stat-lbl">Average Rating</div></div>
+  <div class="stat-box"><div class="stat-big">28</div><div class="stat-lbl">Cities Served</div></div>
+</div>
+
+<!-- MISSION -->
+<section class="mission">
+  <div>
+    <h2 class="mission-title">Our <span>Mission</span></h2>
+    <p class="mission-text">Technology changes lives. A faster laptop helps a student learn better. A quality camera lets a creator build their dream. A reliable phone keeps families connected. We believe everyone deserves access to the best of it — not just those who can afford premium prices.</p>
+    <p class="mission-text">At VOLT, we partner directly with manufacturers, cut out unnecessary middlemen, and pass the savings on to you. Every rupee you save is a rupee towards what matters most to you.</p>
+    <a href="shop.html" class="btn-primary" style="margin-top:1rem">Shop Now</a>
+  </div>
+  <div class="mission-visual">
+    <div class="mission-point"><span class="mission-icon">🎯</span><div><div class="mission-point-title">Customer First</div><div class="mission-point-text">Every decision we make starts with a simple question: is this better for our customers?</div></div></div>
+    <div class="mission-point"><span class="mission-icon">🏷️</span><div><div class="mission-point-title">Fair Pricing</div><div class="mission-point-text">We show you the real price, the real savings, and never play games with fake discounts.</div></div></div>
+    <div class="mission-point"><span class="mission-icon">🛡️</span><div><div class="mission-point-title">Genuine Products</div><div class="mission-point-text">100% authorized dealer. Every product is authentic, warranted, and certified.</div></div></div>
+    <div class="mission-point"><span class="mission-icon">🌱</span><div><div class="mission-point-title">Sustainability</div><div class="mission-point-text">Carbon-neutral shipping and eco-friendly packaging on all orders from 2025.</div></div></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team">
+  <div class="section-head">
+    <h2 class="section-title">Meet the <span>Team</span></h2>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <img class="team-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&fit=crop&crop=face" alt="Arjun"/>
+      <div class="team-info"><div class="team-name">Arjun Reddy</div><div class="team-role">Founder & CEO</div><div class="team-bio">Ex-Amazon. Built VOLT from a 200 sq ft room in Hyderabad. Obsessed with gadgets and great customer experiences.</div></div>
+    </div>
+    <div class="team-card">
+      <img class="team-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80&fit=crop&crop=face" alt="Priya"/>
+      <div class="team-info"><div class="team-name">Priya Sharma</div><div class="team-role">Head of Product</div><div class="team-bio">10 years in consumer electronics. If it's on the site, she approved it — personally tests every product category.</div></div>
+    </div>
+    <div class="team-card">
+      <img class="team-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80&fit=crop&crop=face" alt="Rahul"/>
+      <div class="team-info"><div class="team-name">Rahul Nair</div><div class="team-role">CTO</div><div class="team-bio">Full-stack engineer who built the entire platform. Previously at Flipkart. Loves clean code and fast checkout flows.</div></div>
+    </div>
+    <div class="team-card">
+      <img class="team-img" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80&fit=crop&crop=face" alt="Meera"/>
+      <div class="team-info"><div class="team-name">Meera Kapoor</div><div class="team-role">Head of Customer Success</div><div class="team-bio">Makes sure every VOLT customer is a happy one. Her team resolves 95% of issues within 2 hours.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline">
+  <div class="section-head"><h2 class="section-title">Our <span>Journey</span></h2></div>
+  <div class="timeline-list">
+    <div class="tl-item"><div class="tl-year">2019</div><div class="tl-event">VOLT Founded</div><div class="tl-desc">Started in a 200 sq ft room in Hyderabad with 12 products and a big dream.</div></div>
+    <div class="tl-item"><div class="tl-year">2020</div><div class="tl-event">First 10,000 Orders</div><div class="tl-desc">Hit our first major milestone during the pandemic boom in online tech shopping.</div></div>
+    <div class="tl-item"><div class="tl-year">2021</div><div class="tl-event">Authorized Partnership with Apple & Samsung</div><div class="tl-desc">Became an authorized reseller for India's two biggest phone brands.</div></div>
+    <div class="tl-item"><div class="tl-year">2022</div><div class="tl-event">Expanded to 500+ Products</div><div class="tl-desc">Launched categories for Audio, Wearables, Gaming, and Cameras.</div></div>
+    <div class="tl-item"><div class="tl-year">2023</div><div class="tl-event">₹100 Crore Revenue Milestone</div><div class="tl-desc">Reached ₹100Cr GMV. Expanded to 28 cities with same-day delivery.</div></div>
+    <div class="tl-item"><div class="tl-year">2024</div><div class="tl-event">2 Million Happy Customers</div><div class="tl-desc">Surpassed 2M customers with a 4.9-star average rating across platforms.</div></div>
+    <div class="tl-item"><div class="tl-year">2026</div><div class="tl-event">New Platform Launch</div><div class="tl-desc">Launched our all-new website and mobile app with AI-powered recommendations.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="about-cta">
+  <h2>Ready to Upgrade?</h2>
+  <p>Browse 500+ products at India's best prices. Free delivery. Easy returns.</p>
+  <a href="shop.html" class="btn-dark">Shop Now →</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a class="logo" href="index.html">VOLT<span>.</span></a><p class="footer-brand-desc">Next-gen electronics at unbeatable prices.</p></div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html?cat=Phones">Phones</a></li><li><a href="shop.html?cat=Laptops">Laptops</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="blog.html">Blog</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 VOLT Electronics.</p><div class="footer-socials"><a class="social-btn">𝕏</a><a class="social-btn">📘</a><a class="social-btn">📸</a></div></div>
+</footer>
+<script src="shared.js"></script>
+</body>
+</html>
